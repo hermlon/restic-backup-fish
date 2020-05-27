@@ -20,4 +20,6 @@ if restic snapshots >/dev/null
 
 	echo "Backup finished in $backup_elapsed_time minutes."
 	notify-send -i drive-harddisk -c transfer.complete "Backup finished in $backup_elapsed_time minutes."
+else
+	exit 1
 end

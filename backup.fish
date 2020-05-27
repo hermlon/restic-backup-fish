@@ -10,7 +10,7 @@ if restic snapshots >/dev/null
 	set backup_start_time (date +%s)
 	restic backup \
 		--verbose \
-		--files-from ~/.config/restic/backup.files
+		--files-from ~/.config/restic/backup.files \
 		--exclude-file ~/.config/restic/exclude.files
 
 	set backup_end_time (date +%s)

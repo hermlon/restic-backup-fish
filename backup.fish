@@ -12,6 +12,16 @@ if restic snapshots >/dev/null
 		--verbose \
 		--files-from ~/.config/restic/backup.files \
 		--exclude-file ~/.config/restic/exclude.files
+	
+	echo "Forgetting good old times..."
+	restic forget \
+		--prune \
+		--keep-last 3 \
+		--keep-daily 14 \
+		--keep-monthly 6 \
+		--keep-yearly 1000
+
+	restic check
 
 	set backup_end_time (date +%s)
 	set backup_elapsed_time (math --scale=1 \($backup_end_time - $backup_start_time\) / 60)

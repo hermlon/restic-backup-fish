@@ -10,7 +10,7 @@ if restic snapshots >/dev/null
 	echo "Successfully opened repository"
 
 	# TODO: add prompt in interactive mode (like in venv/bin/activate.fish)
-	argparse "i/interactive" -- $argv
+	argparse "i/interactive" "q/quick" -- $argv
 	if set -q _flag_i
 		# run fish shell with exported restic password
 		fish
@@ -23,13 +23,16 @@ if restic snapshots >/dev/null
 		
 		echo "Forgetting good old times..."
 		restic forget \
-			--prune \
 			--keep-last 3 \
 			--keep-daily 14 \
 			--keep-monthly 6 \
 			--keep-yearly 1000
 
-		restic check
+		if not set -q _flag_q
+			echo "Taking my time to clean and check repository..."
+			restic prune
+			restic check
+		end
 
 		set backup_end_time (date +%s)
 		set backup_elapsed_time (math --scale=1 \($backup_end_time - $backup_start_time\) / 60)

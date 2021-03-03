@@ -2,7 +2,9 @@
 
 # RESTIC_REPOSITORY should be set (using set -x)
 
-read -slx -P "Password: " RESTIC_PASSWORD
+if set -q RESTIC_PASSWORD
+	read -slx -P "Password: " RESTIC_PASSWORD
+end
 
 if restic snapshots >/dev/null
 	# TODO: don't redirect to /dev/null but parse and show last backup date

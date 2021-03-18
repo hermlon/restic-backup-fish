@@ -2,8 +2,12 @@
 
 # RESTIC_REPOSITORY should be set (using set -x)
 
-if set -q RESTIC_PASSWORD
-	read -slx -P "Password: " RESTIC_PASSWORD
+# setting scope of variable
+set -lx RESTIC_PASSWORD $RESTIC_PASSWORD
+
+# RESTIC_PASSWORD was not set
+if test "$RESTIC_PASSWORD" = ""
+	read -sx -P "Password: " RESTIC_PASSWORD
 end
 
 if restic snapshots >/dev/null
